@@ -1,1 +1,1 @@
-- Fixed extractors not working with resource packs
+- Fixed null pointer exception
