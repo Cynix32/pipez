@@ -26,7 +26,11 @@ public class GasPipeBlock extends PipeBlock {
     @Override
     public boolean canConnectTo(IWorldReader world, BlockPos pos, Direction facing) {
         TileEntity te = world.getBlockEntity(pos.relative(facing));
-        return (te != null && te.getCapability(ModCapabilities.GAS_HANDLER_CAPABILITY, facing.getOpposite()).isPresent());
+        return te != null && (
+            te.getCapability(ModCapabilities.GAS_HANDLER_CAPABILITY, facing.getOpposite()).isPresent()
+                || te.getCapability(ModCapabilities.SLURRY_HANDLER_CAPABILITY, facing.getOpposite()).isPresent()
+
+          );
     }
 
     @Override

@@ -11,9 +11,12 @@ import de.maxhenkel.corelib.tag.SingleElementTag;
 import de.maxhenkel.pipez.DirectionalPosition;
 import de.maxhenkel.pipez.Filter;
 import de.maxhenkel.pipez.Main;
+import de.maxhenkel.pipez.utils.WrappedSlurryStack;
 import de.maxhenkel.pipez.utils.WrappedGasStack;
 import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.chemical.slurry.Slurry;
+import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -135,6 +138,9 @@ public class FilterList extends WidgetBase {
         } else if (o instanceof Gas) {
             GasStack stack = new GasStack((Gas) o, 1000);
             return new WrappedGasStack(stack);
+        } else if (o instanceof Slurry) {
+            SlurryStack stack = new SlurryStack((Slurry) o, 1000);
+            return new WrappedSlurryStack(stack);
         }
 
         return null;

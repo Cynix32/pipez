@@ -2,6 +2,7 @@ package de.maxhenkel.pipez.blocks.tileentity.types;
 
 import de.maxhenkel.pipez.Filter;
 import de.maxhenkel.pipez.GasFilter;
+import de.maxhenkel.pipez.SlurryFilter;
 import de.maxhenkel.pipez.Main;
 import de.maxhenkel.pipez.Upgrade;
 import de.maxhenkel.pipez.blocks.ModBlocks;
@@ -13,6 +14,9 @@ import mekanism.api.Action;
 import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
+import mekanism.api.chemical.slurry.Slurry;
+import mekanism.api.chemical.slurry.SlurryStack;
+import mekanism.api.chemical.slurry.ISlurryHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -35,12 +39,14 @@ public class GasPipeType extends PipeType<Gas> {
 
     @Override
     public boolean canInsert(TileEntity tileEntity, Direction direction) {
-        return tileEntity.getCapability(ModCapabilities.GAS_HANDLER_CAPABILITY, direction).isPresent();
+        return ( tileEntity.getCapability(ModCapabilities.GAS_HANDLER_CAPABILITY, direction).isPresent()
+        || tileEntity.getCapability(ModCapabilities.SLURRY_HANDLER_CAPABILITY, direction).isPresent()
+        );
     }
 
     @Override
     public Filter<Gas> createFilter() {
-        return new GasFilter();
+        return new  GasFilter();
     }
 
     @Override

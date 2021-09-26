@@ -1,5 +1,6 @@
 package de.maxhenkel.pipez.gui;
 
+import de.maxhenkel.pipez.SlurryFilter;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -12,7 +13,9 @@ import de.maxhenkel.pipez.items.FilterDestinationToolItem;
 import de.maxhenkel.pipez.net.OpenExtractMessage;
 import de.maxhenkel.pipez.net.UpdateFilterMessage;
 import de.maxhenkel.pipez.utils.GasUtils;
+import de.maxhenkel.pipez.utils.SlurryUtils;
 import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -193,7 +196,7 @@ public class FilterScreen extends ScreenBase<FilterContainer> {
     }
 
     private boolean hasNBT() {
-        return !(filter instanceof GasFilter);
+        return !( (filter instanceof GasFilter) || (filter instanceof SlurryFilter));
     }
 
     @Override
@@ -226,6 +229,14 @@ public class FilterScreen extends ScreenBase<FilterContainer> {
             }
         } else if (filter instanceof GasFilter) {
             ITag.INamedTag tag = GasUtils.getGas(text, true);
+            filter.setTag(tag);
+            if (filter.getTag() == null) {
+                item.setTextColor(TextFormatting.DARK_RED.getColor());
+            } else {
+                item.setTextColor(TextFormatting.WHITE.getColor());
+            }
+        } else if (filter instanceof SlurryFilter) {
+            ITag.INamedTag tag = SlurryUtils.getSlurry(text, true);
             filter.setTag(tag);
             if (filter.getTag() == null) {
                 item.setTextColor(TextFormatting.DARK_RED.getColor());
@@ -277,6 +288,12 @@ public class FilterScreen extends ScreenBase<FilterContainer> {
             GasStack gas = GasUtils.getGasContained(stack);
             if (gas != null) {
                 item.setValue(gas.getType().getRegistryName().toString());
+                nbt.setValue("");
+            }
+        } else if (filter instanceof SlurryFilter) {
+            SlurryStack slurry = SlurryUtils.getSlurryContained(stack);
+            if (slurry != null) {
+                item.setValue(slurry.getType().getRegistryName().toString());
                 nbt.setValue("");
             }
         }

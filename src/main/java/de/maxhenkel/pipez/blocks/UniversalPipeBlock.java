@@ -34,6 +34,7 @@ public class UniversalPipeBlock extends PipeBlock {
                         || te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite()).isPresent()
                         || te.getCapability(CapabilityEnergy.ENERGY, facing.getOpposite()).isPresent()
                         || te.getCapability(ModCapabilities.GAS_HANDLER_CAPABILITY, facing.getOpposite()).isPresent()
+                        || te.getCapability(ModCapabilities.SLURRY_HANDLER_CAPABILITY, facing.getOpposite()).isPresent()
         );
     }
 

@@ -9,6 +9,8 @@ import de.maxhenkel.pipez.blocks.tileentity.types.PipeType;
 import de.maxhenkel.pipez.net.*;
 import de.maxhenkel.pipez.utils.GasUtils;
 import mekanism.api.chemical.gas.GasStack;
+import de.maxhenkel.pipez.utils.SlurryUtils;
+import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -313,6 +315,13 @@ public class ExtractScreen extends ScreenBase<ExtractContainer> {
             GasStack gas = GasUtils.getGasContained(stack);
             if (gas != null) {
                 filter.setTag(new SingleElementTag(gas.getType()));
+                filter.setMetadata(null);
+                Main.SIMPLE_CHANNEL.sendToServer(new UpdateFilterMessage(filter, currentindex));
+            }
+        } else if (filter instanceof SlurryFilter) {
+            SlurryStack slurry = SlurryUtils.getSlurryContained(stack);
+            if (slurry != null) {
+                filter.setTag(new SingleElementTag(slurry.getType()));
                 filter.setMetadata(null);
                 Main.SIMPLE_CHANNEL.sendToServer(new UpdateFilterMessage(filter, currentindex));
             }
